@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Piel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        .header {
+            background-color: #f8f8f8;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .header img {
+            height: 50px;
+        }
+
+        .nav a {
+            margin: 0 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .main-title {
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .services {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .service-card {
+            width: 30%;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .service-card h3 {
+            margin: 10px 0;
+            color: #444;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .service-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #2a9d8f;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #f8f8f8;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+          /* Estilos del modal */
+          #fondoModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width:100%;
+            height:100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        #modalInfo {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
+            width: 300px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        #modalInfo h2 {
+            color: #2a9d8f;
+        }
+
+        #modalInfo p {
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        #modalInfo button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #modalInfo .login-btn {
+            background-color: #2a9d8f;
+            color: white;
+        }
+
+        #modalInfo .close-btn {
+            background-color: #ccc;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Encabezado -->
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Pro-Piel Logo">
+        </div>
+        <nav class="nav">
+            <a href="#dermatologia">Dermatología</a>
+            <a href="#podologia">Podología</a>
+            <a href="#toxina">Toxina Botulínica</a>
+            <a href="#registro">Registrarse</a>
+            <a href="#login">Iniciar Sesión</a>
+        </nav>
+    </header>
+
+    <!-- Título Principal -->
+    <section class="main-title">
+        <h2>Especialistas en Cuidado de la Piel</h2>
+        <p>Ofrecemos tratamientos avanzados y cuidados profesionales en dermatología y podología.</p>
+    </section>
+
+    <!-- Servicios -->
+    <section class="services">
+        <div class="service-card" id="dermatologia">
+            <img src="dermatologia.jpg" alt="Dermatología">
+            <h3>Dermatología</h3>
+            <p>Tratamientos avanzados para el cuidado y la salud de la piel.</p>
+            <button onclick="mostrarInfo('dermatologia')">Más información</button>
+        </div>
+        <div class="service-card" id="podologia">
+            <img src="podologia.jpg" alt="Podología">
+            <h3>Podología</h3>
+            <p>Servicios especializados en el cuidado de tus pies.</p>
+            <button onclick="mostrarInfo('podologia')">Más información</button>
+        </div>
+        <div class="service-card" id="toxina">
+            <img src="toxina.jpg" alt="Toxina Botulínica">
+            <h3>Toxina Botulínica</h3>
+            <p>Procedimientos estéticos con resultados profesionales.</p>
+            <button onclick="mostrarInfo('tamizaje')">Más información</button>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="fondoModal" onclick="cerrarModal()"></div>
+    <div id="modalInfo">
+        <h2 id="tituloModal"></h2>
+        <p id="contenidoModal"></p>
+        <button class="login-btn" onclick="irALogin()">Ir a inicio de sesión</button>
+        <button class="close-btn" onclick="cerrarModal()">Cerrar</button>
+    </div>
+
+    <!-- Pie de Página -->
+    <footer class="footer">
+        <p>© 2024 Pro-Piel. Todos los derechos reservados.</p>
+        <p>Contáctanos: info@propiel.com | Tel: 123-456-7890</p>
+        <p>Síguenos en redes sociales</p>
+    </footer>
+
+    <!-- Script del modal -->
+    <script>
+        const contenidos = {
+            dermatologia: {
+                titulo: "Dermatología",
+                contenido: "En esta área se atienden enfermedades de la piel como acné, lunares sospechosos, dermatitis, entre otros."
+            },
+            podologia: {
+                titulo: "Podología",
+                contenido: "La podología se encarga del diagnóstico y tratamiento de afecciones en los pies como uñas encarnadas, callos, etc."
+            },
+            tamizaje: {
+                titulo: "Tamizaje",
+                contenido: "El tamizaje permite identificar condiciones médicas de manera preventiva, especialmente en estética facial."
+            }
+        };
+
+        function mostrarInfo(tipo) {
+            document.getElementById("tituloModal").innerText = contenidos[tipo].titulo;
+            document.getElementById("contenidoModal").innerText = contenidos[tipo].contenido;
+            document.getElementById("modalInfo").style.display = "block";
+            document.getElementById("fondoModal").style.display = "block";
+        }
+
+        function cerrarModal() {
+            document.getElementById("modalInfo").style.display = "none";
+            document.getElementById("fondoModal").style.display = "none";
+        }
+
+        function irALogin() {
+            window.location.href = "login.php"; // Asegúrate que exista este archivo
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+    "name": "lex_1/piel",
+    "autoload": {
+        "psr-4": {
+            "Lex1\\Piel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lexisuriel",
+            "email": "lex_1019@hotmail.com"
+        }
+    ],
+    "require": {
+        "dompdf/dompdf": "^3.1"
+    }
+}

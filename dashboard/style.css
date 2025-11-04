@@ -1,0 +1,106 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            width: 250px;
+            background-color: #2a9d8f;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 1em;
+        }
+
+        .sidebar a:hover {
+            background-color: #21867a;
+        }
+
+        /* Cabecera */
+        .dashboard-header {
+            height: 60px;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.5em;
+        }
+
+        /* Contenido principal */
+        .dashboard-content {
+            flex-grow: 1;
+            background-color: #f4f7fa;
+            overflow-y: auto;
+        }
+
+        .dashboard-container {
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        /* Tabla de citas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        /* Botón de acción */
+        .action-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2a9d8f;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+        }

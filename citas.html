@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Citas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Mis Citas</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Servicio</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody id="citasTable">
+            <!-- Las citas se cargarán aquí -->
+        </tbody>
+    </table>
+
+    <script>
+        // Simulando datos de citas
+        const citas = [
+            { servicio: "Dermatología", fecha: "2024-12-01", hora: "10:00 AM", estado: "Confirmada" },
+            { servicio: "Podología", fecha: "2024-12-03", hora: "02:30 PM", estado: "Pendiente" },
+            { servicio: "Tamizaje", fecha: "2024-12-05", hora: "09:15 AM", estado: "Cancelada" }
+        ];
+
+        // Función para cargar las citas en la tabla
+        const cargarCitas = () => {
+            const citasTable = document.getElementById("citasTable");
+
+            citas.forEach(cita => {
+                const row = `
+                    <tr>
+                        <td>${cita.servicio}</td>
+                        <td>${cita.fecha}</td>
+                        <td>${cita.hora}</td>
+                        <td>${cita.estado}</td>
+                    </tr>`;
+                citasTable.innerHTML += row;
+            });
+        };
+
+        // Cargar las citas cuando se carga la página
+        document.addEventListener("DOMContentLoaded", cargarCitas);
+    </script>
+</body>
+</html>

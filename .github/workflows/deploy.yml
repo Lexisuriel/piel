@@ -3,7 +3,7 @@ name: 🚀 Deploy automático por SFTP
 on:
   push:
     branches:
-      - main  # o master, según tu rama
+      - main  # o master si usas esa rama
 
 jobs:
   deploy:
@@ -17,20 +17,10 @@ jobs:
       - name: 📂 Subir al servidor SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          username: ${{ secrets.FTP_USER }}
           server: ${{ secrets.FTP_SERVER }}
-          port: 22
+          username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local_path: ./      # Carpeta local
-          remote_path: /www/        # Carpeta remota
-          sftp_only: true
-          exclude: |
-            **/.git*
-            **/.github*
-            **/node_modules/**
-            **/vendor/**
-            **/.env
-            **/*.test
-            **/*.md
-            **/composer.lock
-
+          port: 22
+          local_path: "./piel/"          # carpeta local (usa / al final)
+          remote_path: "/www/"           # carpeta destino en el servidor
+          delete_remote_files: false     # evita borrar archivos antiguos

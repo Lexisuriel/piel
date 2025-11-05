@@ -1,9 +1,9 @@
-name: 🚀 Deploy automático a AlwaysData por FTPS
+name: 🚀 Deploy automático a AlwaysData (FTPS)
 
 on:
   push:
     branches:
-      - main  # o "master" si tu rama principal se llama así
+      - main  # cambia si usas otra rama principal
 
 jobs:
   deploy:
@@ -13,7 +13,7 @@ jobs:
       - name: 🧩 Clonar el repositorio
         uses: actions/checkout@v4
 
-      - name: 📤 Subir archivos al servidor (FTPS)
+      - name: 📤 Subir archivos por FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -22,5 +22,7 @@ jobs:
           port: 21
           protocol: ftps
           security: loose
-          local-dir: ./
+          local-dir: ./piel/
           server-dir: /home/lexisuriel/www/
+          state-name: .ftp-deploy-sync.json
+          timeout: 60000

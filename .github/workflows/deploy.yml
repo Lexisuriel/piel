@@ -1,26 +1,26 @@
-name: 🚀 Deploy automático por SFTP
+name: 🚀 Deploy automático por FTPS
 
 on:
   push:
     branches:
-      - main  # o master si usas esa rama
+      - main  # cambia a master si usas esa rama
 
 jobs:
   deploy:
-    name: Subir archivos por SFTP
+    name: Subir archivos al servidor FTPS
     runs-on: ubuntu-latest
 
     steps:
       - name: 🧩 Clonar el repositorio
         uses: actions/checkout@v4
 
-      - name: 📂 Subir al servidor SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: 📤 Subir al servidor AlwaysData (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          local_path: "./piel/"          # carpeta local (usa / al final)
-          remote_path: "/www/"           # carpeta destino en el servidor
-          delete_remote_files: false     # evita borrar archivos antiguos
+          protocol: ftps
+          port: 21
+          local-dir: ./piel/
+          server-dir: /home/lexisuriel/www/

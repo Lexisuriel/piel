@@ -20,7 +20,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /www/   # 👈 Esta es la carpeta pública de tu hosting
+          server-dir: /www/ 
           local-dir: ./
           exclude: |
             **/.git*

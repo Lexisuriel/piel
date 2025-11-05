@@ -1,0 +1,33 @@
+name: 🚀 Deploy automático por FTP
+
+on:
+  push:
+    branches:
+      - main  # Cambia a tu rama principal si usas "master"
+
+jobs:
+  deploy:
+    name: Subir archivos al servidor FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧩 Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: 📂 Subir al servidor FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: www/  # 📁 Directorio raíz del servidor (ajústalo si tu hosting requiere "htdocs/" o "www/")
+          local-dir: ./piel  # 📂 Carpeta local que quieres subir
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/**
+            **/vendor/**
+            **/.env
+            **/*.test
+            **/*.md
+            **/composer.lock

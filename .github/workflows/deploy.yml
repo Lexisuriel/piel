@@ -1,28 +1,29 @@
-name: 🚀 Deploy automático por FTP
+name: 🚀 Deploy automático por SFTP
 
 on:
   push:
     branches:
-      - main  # O cambia a "master" si es tu rama principal
+      - main  # o master, según tu rama
 
 jobs:
   deploy:
-    name: Subir archivos al servidor FTP
+    name: Subir archivos por SFTP
     runs-on: ubuntu-latest
 
     steps:
       - name: 🧩 Clonar el repositorio
         uses: actions/checkout@v4
 
-      - name: 📂 Subir al servidor FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: 📂 Subir al servidor SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
+          server: ${{ secrets.FTP_SERVER }}
+          port: 22
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /www/ 
-          local-dir: ./
-          security: explicit
+          local_path: ./      # Carpeta local
+          remote_path: /www/        # Carpeta remota
+          sftp_only: true
           exclude: |
             **/.git*
             **/.github*
@@ -32,3 +33,4 @@ jobs:
             **/*.test
             **/*.md
             **/composer.lock
+

@@ -3,7 +3,7 @@ name: 🚀 Deploy automático por FTP
 on:
   push:
     branches:
-      - main  # Cambia a tu rama principal si usas "master"
+      - main  # O cambia a "master" si es tu rama principal
 
 jobs:
   deploy:
@@ -20,8 +20,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /www  # 📁 Directorio raíz del servidor (ajústalo si tu hosting requiere "htdocs/" o "www/")
-          local-dir: ./piel  # 📂 Carpeta local que quieres subir
+          server-dir: /www/   # 👈 Esta es la carpeta pública de tu hosting
+          local-dir: ./piel/  # 👈 IMPORTANTE: termina con una barra "/"
           exclude: |
             **/.git*
             **/.github*

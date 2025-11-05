@@ -22,6 +22,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /www/ 
           local-dir: ./
+          security: explicit
           exclude: |
             **/.git*
             **/.github*

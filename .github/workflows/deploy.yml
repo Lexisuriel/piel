@@ -22,5 +22,5 @@ jobs:
           port: 21
           protocol: ftps
           security: loose
-          local-dir: ./piel/
+          local-dir: ./
           server-dir: /home/lexisuriel/www/

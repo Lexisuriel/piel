@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /www/   # 👈 Esta es la carpeta pública de tu hosting
-          local-dir: ./piel/  # 👈 IMPORTANTE: termina con una barra "/"
+          local-dir: ./
           exclude: |
             **/.git*
             **/.github*

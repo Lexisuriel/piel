@@ -1,0 +1,22 @@
+# Archivos del entorno local
+.env
+*.log
+*.sql
+.DS_Store
+
+# Directorios comunes
+/vendor/
+node_modules/
+.idea/
+.vscode/
+cache/
+tmp/
+
+# Configuración XAMPP
+xampp/
+htdocs/
+*.bak
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini

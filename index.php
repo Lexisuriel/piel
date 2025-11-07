@@ -123,16 +123,6 @@ $userRole = isset($_SESSION['rol']) ? $_SESSION['rol'] : '';
         </section>
     </main>
 
-    <!-- Modal personalizado -->
-    <div v-if="modalVisible">
-        <div class="modal-bg" @click="cerrarModal"></div>
-        <div class="custom-modal-info">
-            <h2>{{ modalTitulo }}</h2>
-            <p>{{ modalContenido }}</p>
-            <button @click="cerrarModal">Cerrar</button>
-        </div>
-    </div>
-
     <footer-component></footer-component>
 
     <!-- Modal Login -->
@@ -196,7 +186,7 @@ if (isset($_SESSION['form_data'])) {
                 <form action="register.php" method="POST">
                     <!-- Campos existentes -->
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nombre Completo</label>
+                        <label for="nombre_completo" class="form-label">Nombre Completo</label>
                         <input type="text" class="form-control custom-input" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
@@ -225,8 +215,8 @@ if (isset($_SESSION['form_data'])) {
                         <label for="gender" class="form-label">Género</label>
                         <select class="form-control custom-input" id="gender" name="gender" required>
                             <option value="">Seleccionar</option>
-                            <option value="Male">Masculino</option>
-                            <option value="Female">Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
                         </select>
                     </div>
                     <div class="mb-3">

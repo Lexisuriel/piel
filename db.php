@@ -4,7 +4,7 @@ class Database {
     private $servername = "mysql-lexisuriel.alwaysdata.net";
     private $username = "439233";
     private $password = "2929*210*18*22Lu";
-    private $dbname = "lexisuriel_piel";
+    private $dbname = "lexisuriel_piel20";
     private $conn;
 
     // Constructor para establecer la conexión

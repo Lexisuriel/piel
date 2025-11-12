@@ -2,10 +2,10 @@
 session_start();
 class Database{
 	
-	private $host  = 'localhost';
-    private $user  = 'u493942604_derma_propiel';
-    private $password   = "Propiel2025";
-    private $database  = "u493942604_propiel"; 
+	private $host  = 'mysql-lexisuriel.alwaysdata.net';
+    private $user  = '439233';
+    private $password   = "2929*210*18*22Lu";
+    private $database  = "lexisuriel_piel20"; 
     
     public function getConnection(){		
 		$conn = new mysqli($this->host, $this->user, $this->password, $this->database);

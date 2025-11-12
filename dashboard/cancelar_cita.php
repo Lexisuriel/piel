@@ -14,7 +14,7 @@ $db = new Database();
 $conn = $db->getConnection();
 
 // Verificar que la cita pertenezca al usuario
-$check = $conn->prepare("SELECT id FROM citas WHERE id = ? AND usuario_id = ?");
+$check = $conn->prepare("SELECT id FROM citas WHERE id = ? AND id_paciente = ?");
 $check->bind_param("ii", $id_cita, $id_usuario);
 $check->execute();
 $check->store_result();

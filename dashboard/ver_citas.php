@@ -13,10 +13,10 @@ $db = new Database();
 $conn = $db->getConnection();
 
 // Obtener citas activas del usuario
-$sql = "SELECT id, especialidad, tipo_cita, fecha, hora, estado 
+$sql = "SELECT id, fecha, motivo, estado 
         FROM citas 
-        WHERE usuario_id = ? 
-        ORDER BY fecha, hora";
+        WHERE id_paciente = ? 
+        ORDER BY fecha";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
@@ -60,15 +60,13 @@ $result = $stmt->get_result();
 <body>
 
 <div class="container">
-    <a href="dashboard.php" class="btn btn-volver"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+    <a href="dashboard.php" class="btn btn-volver">← Volver al inicio</a>
     <h3>Mis Citas Agendadas</h3>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Especialidad</th>
-                <th>Tipo</th>
-                <th>Fecha</th>
-                <th>Hora</th>
+                <th>Fecha y Hora</th>
+                <th>Motivo</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -77,13 +75,11 @@ $result = $stmt->get_result();
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['especialidad']) ?></td>
-                        <td><?= htmlspecialchars($row['tipo_cita']) ?></td>
                         <td><?= htmlspecialchars($row['fecha']) ?></td>
-                        <td><?= htmlspecialchars($row['hora']) ?></td>
+                        <td><?= htmlspecialchars($row['motivo']) ?></td>
                         <td><?= htmlspecialchars($row['estado']) ?></td>
                         <td>
-                            <?php if ($row['estado'] === 'Activa'): ?>
+                            <?php if ($row['estado'] === 'Pendiente' || $row['estado'] === 'Confirmada'): ?>
                                 <a href="reprogramar_cita.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Reprogramar</a>
                                 <a href="cancelar_cita.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas cancelar esta cita?')">Cancelar</a>
                             <?php else: ?>
@@ -93,7 +89,7 @@ $result = $stmt->get_result();
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
-                <tr><td colspan="6" class="text-center">No tienes citas agendadas.</td></tr>
+                <tr><td colspan="4" class="text-center">No tienes citas agendadas.</td></tr>
             <?php endif; ?>
         </tbody>
     </table>

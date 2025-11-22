@@ -1,4 +1,7 @@
 <?php
+ob_start(); // <-- Esto evita que se envíe cualquier salida accidental al navegador
+error_reporting(0); // <-- Evita warnings como utf8_decode deprecated
+
 require '../db.php';
 require '../fpdf/fpdf.php';
 
@@ -35,46 +38,47 @@ $pdf->SetMargins(20, 20, 20);
 
 // Título
 $pdf->SetFont('Helvetica', 'B', 20);
-$pdf->Cell(0, 12, utf8_decode('Historial Médico - PROPIEL'), 0, 1, 'C');
+$pdf->Cell(0, 12, 'Historial Médico - PROPIEL', 0, 1, 'C');
 $pdf->Ln(12);
 
 // Datos generales
 $pdf->SetFont('Helvetica', '', 14);
-
-$pdf->Cell(0, 10, utf8_decode('Paciente: ' . $data['paciente']), 0, 1);
+$pdf->Cell(0, 10, 'Paciente: ' . $data['paciente'], 0, 1);
 $pdf->Ln(5);
 
-$pdf->Cell(0, 10, utf8_decode('Especialista: ' . $data['especialista'] . ' (' . $data['especialidad'] . ')'), 0, 1);
+$pdf->Cell(0, 10, 'Especialista: ' . $data['especialista'] . ' (' . $data['especialidad'] . ')', 0, 1);
 $pdf->Ln(5);
 
-$pdf->Cell(0, 10, utf8_decode('Fecha de registro: ' . $data['fecha']), 0, 1);
+$pdf->Cell(0, 10, 'Fecha de registro: ' . $data['fecha'], 0, 1);
 $pdf->Ln(12);
 
 // Sección Diagnóstico
 $pdf->SetFont('Helvetica', 'B', 15);
-$pdf->Cell(0, 10, utf8_decode('Diagnóstico:'), 0, 1);
+$pdf->Cell(0, 10, 'Diagnóstico:', 0, 1);
 $pdf->Ln(3);
 
 $pdf->SetFont('Helvetica', '', 14);
-$pdf->MultiCell(0, 9, utf8_decode($data['diagnostico']));
+$pdf->MultiCell(0, 9, $data['diagnostico']);
 $pdf->Ln(12);
 
 // Sección Tratamiento
 $pdf->SetFont('Helvetica', 'B', 15);
-$pdf->Cell(0, 10, utf8_decode('Tratamiento:'), 0, 1);
+$pdf->Cell(0, 10, 'Tratamiento:', 0, 1);
 $pdf->Ln(3);
 
 $pdf->SetFont('Helvetica', '', 14);
-$pdf->MultiCell(0, 9, utf8_decode($data['tratamiento']));
+$pdf->MultiCell(0, 9, $data['tratamiento']);
 $pdf->Ln(12);
 
 // Sección Observaciones
 $pdf->SetFont('Helvetica', 'B', 15);
-$pdf->Cell(0, 10, utf8_decode('Observaciones:'), 0, 1);
+$pdf->Cell(0, 10, 'Observaciones:', 0, 1);
 $pdf->Ln(3);
 
 $pdf->SetFont('Helvetica', '', 14);
-$pdf->MultiCell(0, 9, utf8_decode($data['observaciones']));
+$pdf->MultiCell(0, 9, $data['observaciones']);
 $pdf->Ln(10);
 
+// Enviar PDF
+ob_end_clean(); // Limpia cualquier salida previa
 $pdf->Output();

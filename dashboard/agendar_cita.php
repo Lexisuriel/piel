@@ -64,10 +64,6 @@ $res = $conn->query($sql);
 <body>
 
 <div class="container">
-<<<<<<< HEAD
-
-=======
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
     <a href="dashboard.php" class="btn btn-secondary mb-3">
         <i class="fas fa-arrow-left"></i> Regresar
     </a>
@@ -75,7 +71,6 @@ $res = $conn->query($sql);
     <h3>Agendar Cita</h3>
 
     <form id="formCita" method="POST" action="procesar_cita.php">
-<<<<<<< HEAD
 
         <!-- ESPECIALISTA (CORREGIDO) -->
         <div class="mb-3">
@@ -93,46 +88,15 @@ $res = $conn->query($sql);
         </div>
 
         <!-- TIPO DE CITA -->
-=======
-        <input type="hidden" name="id_paciente" value="<?php echo $_SESSION['id']; ?>">
-
-        <!-- Especialista -->
-        <div class="mb-3">
-            <label for="id_especialista" class="form-label">Selecciona un especialista:</label>
-            <select name="id_especialista" id="id_especialista" class="form-control" required>
-                <option value="">--Seleccionar Especialista--</option>
-                <?php foreach ($especialistas as $e): ?>
-                    <option value="<?php echo $e['id']; ?>">
-                        <?php echo htmlspecialchars($e['nombre'] . " - " . $e['especialidad']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
-        <!-- Motivo -->
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
         <div class="mb-3">
             <label for="motivo" class="form-label">Motivo de la cita:</label>
             <textarea name="motivo" id="motivo" rows="3" class="form-control" placeholder="Describe brevemente el motivo de tu cita..." required></textarea>
         </div>
 
-<<<<<<< HEAD
         <!-- FECHA -->
         <div class="mb-3">
             <label for="fecha" class="form-label">Fecha:</label>
             <input type="date" name="fecha" id="fecha" class="form-control" required>
-=======
-        <!-- Fecha y hora -->
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="date" name="fecha" id="fecha" class="form-control" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="hora" class="form-label">Hora:</label>
-                <input type="time" name="hora" id="hora" class="form-control" required>
-            </div>
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
         </div>
         
 <div class="mb-3">
@@ -140,16 +104,11 @@ $res = $conn->query($sql);
     <textarea name="motivo" id="motivo" class="form-control" placeholder="Describe brevemente el motivo..." required></textarea>
 </div>
 
-<<<<<<< HEAD
         <!-- HORA -->
         <div class="mb-3">
             <label for="hora" class="form-label">Hora:</label>
             <input type="time" name="hora" id="hora" class="form-control" required>
         </div>
-=======
-        <!-- Botón deshabilitado hasta que se llenen los campos -->
-        <button type="button" class="btn btn-pagar w-100" onclick="verificarDisponibilidad()">Verificar disponibilidad</button>
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
 
     </form>
 

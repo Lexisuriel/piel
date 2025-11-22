@@ -67,10 +67,48 @@ $conn->close();
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* RESET Y ESTILOS BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            background-color: #f8f9fa !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* NAVBAR FORZADO */
+        .navbar {
+            background-color: #2a9d8f !important;
+            background: #2a9d8f !important;
+            border-bottom: 3px solid #21867a !important;
+            padding: 12px 0 !important;
+            width: 100% !important;
+            position: relative !important;
+            z-index: 1000 !important;
+        }
+        
+        .navbar-dark {
+            background-color: #2a9d8f !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 700 !important;
+            font-size: 1.5rem !important;
+            color: white !important;
+        }
+        
+        .navbar-text {
+            font-weight: 500 !important;
+            color: white !important;
+        }
+        
+        /* CONTENEDOR PRINCIPAL */
         .container {
             background: white;
             border-radius: 15px;
@@ -78,7 +116,9 @@ $conn->close();
             margin-top: 20px;
             margin-bottom: 20px;
             padding: 30px;
+            flex: 1;
         }
+        
         canvas#firma {
             border: 2px solid #2a9d8f;
             border-radius: 10px;
@@ -86,63 +126,113 @@ $conn->close();
             cursor: crosshair;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        
         .btn-primary-custom {
             background-color: #2a9d8f;
             border-color: #2a9d8f;
             color: white;
             font-weight: 500;
         }
+        
         .btn-primary-custom:hover {
             background-color: #21867a;
             border-color: #21867a;
             transform: translateY(-2px);
             transition: all 0.3s ease;
         }
+        
         .btn-volver {
             background: #5a6d75;
             color: white;
             font-weight: 500;
         }
+        
         .btn-volver:hover {
             background: #465559;
             color: white;
             transform: translateY(-2px);
             transition: all 0.3s ease;
         }
+        
         h3, h4 {
             color: #2a9d8f;
         }
+        
         .text-justify {
             text-align: justify;
             line-height: 1.6;
         }
+        
         .firma-container {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
             border: 2px dashed #dee2e6;
         }
+        
+        /* FOOTER FORZADO */
+        body > footer {
+            background-color: #343a40 !important;
+            background: #343a40 !important;
+            color: white !important;
+            padding: 20px 0 !important;
+            margin-top: auto !important;
+            width: 100% !important;
+            position: relative !important;
+            border-top: 3px solid #2a9d8f !important;
+        }
+        
+        .bg-dark {
+            background-color: #343a40 !important;
+        }
+        
+        footer p {
+            margin-bottom: 0 !important;
+            color: white !important;
+            font-size: 1rem !important;
+        }
+        
+        /* CONTENEDOR FLUIDO PARA NAVBAR */
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
                 margin-top: 10px;
             }
+            
             canvas#firma {
                 width: 100% !important;
                 height: 120px !important;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .navbar-container {
+                padding: 0 10px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2a9d8f;">
-        <div class="container">
-            <a class="navbar-brand" href="../index.php">
+    <!-- Navbar Superior - VERSIÓN SIMPLIFICADA -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2a9d8f !important; padding: 12px 0;">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="../index.php" style="color: white !important;">
                 <i class="fas fa-user-md"></i> Pro-Piel
             </a>
-            <div class="navbar-nav ms-auto">
-                <span class="navbar-text text-white">
+            <div class="navbar-nav">
+                <span class="navbar-text" style="color: white !important;">
                     <i class="fas fa-user"></i> <?= htmlspecialchars($nombre_paciente) ?>
                 </span>
             </div>
@@ -226,10 +316,10 @@ $conn->close();
         </form>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-5">
+    <!-- Footer - VERSIÓN SIMPLIFICADA -->
+    <footer class="bg-dark text-white text-center py-3" style="background-color: #343a40 !important; color: white !important;">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Pro-Piel. Todos los derechos reservados.</p>
+            <p class="mb-0" style="color: white !important;">&copy; 2025 Pro-Piel. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -337,6 +427,27 @@ $conn->close();
         window.addEventListener('load', function() {
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // DIAGNÓSTICO EN CONSOLA
+            console.log('=== DIAGNÓSTICO NAVBAR Y FOOTER ===');
+            console.log('Navbar encontrado:', document.querySelector('.navbar'));
+            console.log('Footer encontrado:', document.querySelector('footer'));
+            console.log('Estilo navbar:', document.querySelector('.navbar')?.style.backgroundColor);
+            console.log('Estilo footer:', document.querySelector('footer')?.style.backgroundColor);
+            
+            // Forzar estilos si es necesario
+            const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('footer');
+            
+            if (navbar) {
+                navbar.style.backgroundColor = '#2a9d8f';
+                navbar.style.color = 'white';
+            }
+            
+            if (footer) {
+                footer.style.backgroundColor = '#343a40';
+                footer.style.color = 'white';
+            }
         });
     </script>
 

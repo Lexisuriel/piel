@@ -64,38 +64,57 @@ if ($table_exists) {
             --primary-hover: #21867a;
         }
         
+        /* RESET Y ESTILOS BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            background-color: #f8f9fa;
+            background-color: #f8f9fa !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         
+        /* NAVBAR FORZADO */
         .navbar {
-            background-color: var(--primary-color) !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
+            background-color: #2a9d8f !important;
+            background: #2a9d8f !important;
+            border-bottom: 3px solid #21867a !important;
+            padding: 12px 0 !important;
+            width: 100% !important;
+            position: relative !important;
+            z-index: 1000 !important;
+        }
+        
+        .navbar-dark {
+            background-color: #2a9d8f !important;
         }
         
         .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
+            font-weight: 700 !important;
+            font-size: 1.5rem !important;
+            color: white !important;
         }
         
         .navbar-text {
-            font-weight: 500;
+            font-weight: 500 !important;
+            color: white !important;
         }
         
-        .container {
+        /* CONTENEDOR PRINCIPAL */
+        .main-container {
             background: white;
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             max-width: 1200px;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin: 20px auto;
             flex: 1;
+            width: 100%;
         }
         
         h3 {
@@ -194,18 +213,41 @@ if ($table_exists) {
             margin: 0 2px;
         }
         
-        footer {
+        /* FOOTER FORZADO */
+        body > footer {
             background-color: #343a40 !important;
-            margin-top: auto;
-            width: 100%;
+            background: #343a40 !important;
+            color: white !important;
+            padding: 20px 0 !important;
+            margin-top: auto !important;
+            width: 100% !important;
+            position: relative !important;
+            border-top: 3px solid #2a9d8f !important;
+        }
+        
+        .bg-dark {
+            background-color: #343a40 !important;
         }
         
         footer p {
-            margin-bottom: 0;
+            margin-bottom: 0 !important;
+            color: white !important;
+            font-size: 1rem !important;
+        }
+        
+        /* CONTENEDOR FLUIDO PARA NAVBAR */
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         @media (max-width: 768px) {
-            .container {
+            .main-container {
                 padding: 15px;
                 margin-top: 10px;
             }
@@ -226,28 +268,30 @@ if ($table_exists) {
             .navbar-brand {
                 font-size: 1.2rem;
             }
+            
+            .navbar-container {
+                padding: 0 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar Superior -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <div class="container">
-                <a class="navbar-brand" href="../index.php">
-                    <i class="fas fa-user-md"></i> Pro-Piel
-                </a>
-                <div class="navbar-nav ms-auto">
-                    <span class="navbar-text text-white">
-                        <i class="fas fa-user"></i> <?= htmlspecialchars($nombre_usuario) ?>
-                    </span>
-                </div>
+    <!-- Navbar Superior - VERSIÓN SIMPLIFICADA -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2a9d8f !important; padding: 12px 0;">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="../index.php" style="color: white !important;">
+                <i class="fas fa-user-md"></i> Pro-Piel
+            </a>
+            <div class="navbar-nav">
+                <span class="navbar-text" style="color: white !important;">
+                    <i class="fas fa-user"></i> <?= htmlspecialchars($nombre_usuario) ?>
+                </span>
             </div>
         </div>
     </nav>
 
     <!-- Contenido Principal -->
-    <div class="container">
+    <div class="main-container">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
@@ -361,10 +405,10 @@ if ($table_exists) {
         <?php endif; ?>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
+    <!-- Footer - VERSIÓN SIMPLIFICADA -->
+    <footer class="bg-dark text-white text-center py-3" style="background-color: #343a40 !important; color: white !important;">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Pro-Piel. Todos los derechos reservados.</p>
+            <p class="mb-0" style="color: white !important;">&copy; 2025 Pro-Piel. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -395,10 +439,26 @@ if ($table_exists) {
                 });
             });
 
-            // Verificar si los elementos existen
-            console.log('Navbar:', document.querySelector('.navbar'));
-            console.log('Footer:', document.querySelector('footer'));
-            console.log('Container:', document.querySelector('.container'));
+            // DIAGNÓSTICO EN CONSOLA
+            console.log('=== DIAGNÓSTICO NAVBAR Y FOOTER ===');
+            console.log('Navbar encontrado:', document.querySelector('.navbar'));
+            console.log('Footer encontrado:', document.querySelector('footer'));
+            console.log('Estilo navbar:', document.querySelector('.navbar')?.style.backgroundColor);
+            console.log('Estilo footer:', document.querySelector('footer')?.style.backgroundColor);
+            
+            // Forzar estilos si es necesario
+            const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('footer');
+            
+            if (navbar) {
+                navbar.style.backgroundColor = '#2a9d8f';
+                navbar.style.color = 'white';
+            }
+            
+            if (footer) {
+                footer.style.backgroundColor = '#343a40';
+                footer.style.color = 'white';
+            }
         });
     </script>
 </body>

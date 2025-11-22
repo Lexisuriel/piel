@@ -54,8 +54,8 @@ if ($table_exists) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Consentimientos - Pro-Piel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="../ico/logo.ico">
     
     <style>
@@ -65,8 +65,26 @@ if ($table_exists) {
         }
         
         body {
-            background-color: #ffffffff;
+            background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-text {
+            font-weight: 500;
         }
         
         .container {
@@ -77,6 +95,7 @@ if ($table_exists) {
             max-width: 1200px;
             margin-top: 20px;
             margin-bottom: 20px;
+            flex: 1;
         }
         
         h3 {
@@ -175,6 +194,16 @@ if ($table_exists) {
             margin: 0 2px;
         }
         
+        footer {
+            background-color: #343a40 !important;
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        footer p {
+            margin-bottom: 0;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -193,24 +222,31 @@ if ($table_exists) {
             .btn-group .btn {
                 margin: 2px 0;
             }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navbar Superior -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
-        <div class="container">
-            <a class="navbar-brand" href="../index.php">
-                <i class="fas fa-user-md"></i> Pro-Piel
-            </a>
-            <div class="navbar-nav ms-auto">
-                <span class="navbar-text text-white">
-                    <i class="fas fa-user"></i> <?= htmlspecialchars($nombre_usuario) ?>
-                </span>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <div class="container">
+                <a class="navbar-brand" href="../index.php">
+                    <i class="fas fa-user-md"></i> Pro-Piel
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text text-white">
+                        <i class="fas fa-user"></i> <?= htmlspecialchars($nombre_usuario) ?>
+                    </span>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Contenido Principal -->
     <div class="container">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -270,7 +306,7 @@ if ($table_exists) {
                                 <td>
                                     <span class="badge bg-info badge-especialidad"><?= htmlspecialchars($row['especialidad']) ?></span>
                                 </td>
-                                <td><?= htmlspecialchars($row['fecha_cita']) ?></td>
+                                <td><?= date('d/m/Y', strtotime($row['fecha_cita'])) ?></td>
                                 <td>
                                     <span class="badge bg-secondary"><?= htmlspecialchars($row['tipo_cita']) ?></span>
                                 </td>
@@ -326,21 +362,21 @@ if ($table_exists) {
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-5">
+    <footer class="bg-dark text-white text-center py-3">
         <div class="container">
             <p class="mb-0">&copy; 2025 Pro-Piel. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Confirmación antes de descargar
         document.addEventListener('DOMContentLoaded', function() {
             const downloadButtons = document.querySelectorAll('a[download]');
             downloadButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
-                    const fileName = this.closest('tr').querySelector('.file-icon').nextSibling.textContent.trim();
+                    const fileName = this.getAttribute('download');
                     if (!confirm(`¿Descargar el archivo "${fileName}"?`)) {
                         e.preventDefault();
                     }
@@ -352,11 +388,17 @@ if ($table_exists) {
             buttons.forEach(button => {
                 button.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'all 0.3s ease';
                 });
                 button.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0)';
                 });
             });
+
+            // Verificar si los elementos existen
+            console.log('Navbar:', document.querySelector('.navbar'));
+            console.log('Footer:', document.querySelector('footer'));
+            console.log('Container:', document.querySelector('.container'));
         });
     </script>
 </body>

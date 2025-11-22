@@ -65,7 +65,7 @@ if ($table_exists) {
         }
         
         body {
-            background-color: #61a2e3ff;
+            background-color: #ffffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         

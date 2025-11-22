@@ -5,7 +5,7 @@ class Database{
 	private $host  = 'mysql-lexisuriel.alwaysdata.net';
     private $user  = '439233';
     private $password   = "2929*210*18*22Lu";
-    private $database  = "lexisuriel_piel20"; 
+    private $database  = "lexisuriel_2-1"; 
     
     public function getConnection(){		
 		$conn = new mysqli($this->host, $this->user, $this->password, $this->database);

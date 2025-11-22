@@ -14,7 +14,6 @@ $id_usuario = $_SESSION['id'];
 $db = new Database();
 $conn = $db->getConnection();
 
-<<<<<<< HEAD
 // CONSULTA COMPLETA CON JOIN + MOTIVO + OBSERVACIONES
 $sql = "SELECT 
             c.id,
@@ -31,13 +30,6 @@ $sql = "SELECT
         INNER JOIN especialistas e ON c.id_especialista = e.id
         WHERE c.id_paciente = ?
         ORDER BY c.fecha, c.hora";
-=======
-// Obtener citas activas del usuario
-$sql = "SELECT id, fecha, motivo, estado 
-        FROM citas 
-        WHERE id_paciente = ? 
-        ORDER BY fecha";
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
@@ -107,16 +99,11 @@ $result = $stmt->get_result();
     <table class="table table-striped table-bordered text-center">
         <thead>
             <tr>
-<<<<<<< HEAD
                 <th>Especialidad</th>
                 <th>Especialista</th>
                 <th>Tipo</th>
                 <th>Fecha</th>
                 <th>Hora</th>
-=======
-                <th>Fecha y Hora</th>
-                <th>Motivo</th>
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
                 <th>Estado</th>
                 <th>Motivo</th>
                 <th>Observaciones</th>
@@ -130,12 +117,9 @@ $result = $stmt->get_result();
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-<<<<<<< HEAD
                         <td><?= htmlspecialchars($row['especialidad']) ?></td>
                         <td><?= htmlspecialchars($row['nombre_especialista']) ?></td>
                         <td><?= htmlspecialchars($row['tipo_cita']) ?></td>
-=======
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
                         <td><?= htmlspecialchars($row['fecha']) ?></td>
                         <td><?= htmlspecialchars($row['motivo']) ?></td>
                         <td><?= htmlspecialchars($row['estado']) ?></td>
@@ -144,7 +128,6 @@ $result = $stmt->get_result();
 
                         <!-- HISTORIAL EN PDF -->
                         <td>
-<<<<<<< HEAD
                             <a href="../historial/historial_pdf.php?id_paciente=<?= $id_usuario ?>&id_especialista=<?= $row['id_especialista'] ?>"
                                class="btn btn-outline-primary btn-sm" target="_blank">
                                 PDF
@@ -170,11 +153,6 @@ $result = $stmt->get_result();
                                    onclick="return confirm('¿Seguro que deseas cancelar esta cita?')">
                                    Cancelar
                                 </a>
-=======
-                            <?php if ($row['estado'] === 'Pendiente' || $row['estado'] === 'Confirmada'): ?>
-                                <a href="reprogramar_cita.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Reprogramar</a>
-                                <a href="cancelar_cita.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas cancelar esta cita?')">Cancelar</a>
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
                             <?php else: ?>
                                 <span class="text-muted">N/A</span>
                             <?php endif; ?>
@@ -182,13 +160,9 @@ $result = $stmt->get_result();
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
-<<<<<<< HEAD
                 <tr>
                     <td colspan="11" class="text-center">No tienes citas agendadas.</td>
                 </tr>
-=======
-                <tr><td colspan="4" class="text-center">No tienes citas agendadas.</td></tr>
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
             <?php endif; ?>
         </tbody>
     </table>

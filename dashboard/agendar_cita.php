@@ -9,19 +9,9 @@ require_once("../db.php");
 $db = new Database();
 $conn = $db->getConnection();
 
-<<<<<<< HEAD
 // OBTENER ESPECIALISTAS DE LA BD
 $sql = "SELECT id, nombre, especialidad FROM especialistas";
 $res = $conn->query($sql);
-=======
-// Obtener lista de especialistas
-$sql = "SELECT id, nombre, especialidad FROM especialistas ORDER BY especialidad";
-$result = $conn->query($sql);
-$especialistas = [];
-while ($row = $result->fetch_assoc()) {
-    $especialistas[] = $row;
-}
->>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
 ?>
 
 <!DOCTYPE html>

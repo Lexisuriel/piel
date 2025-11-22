@@ -199,7 +199,7 @@ $conn->close();
             <a href="dashboard.php" class="active"><i class="fas fa-home"></i> Inicio</a>
 
             <!-- 🔥 AQUÍ SE CORRIGE -->
-            <a href="agendar_cita.php"><i class="fas fa-calendar-check"></i> Mis Citas</a>
+            <a href="ver_citas.php"><i class="fas fa-calendar-check"></i> Mis Citas</a>
 
             <a href="ver_consentimiento.php"><i class="fas fa-file-alt"></i> Consentimiento</a>
             <a href="#historial"><i class="fas fa-notes-medical"></i> Historial</a>

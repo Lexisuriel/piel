@@ -14,7 +14,7 @@ $db = new Database();
 $conn = $db->getConnection();
 
 // Obtener cita actual
-$sql = "SELECT fecha, hora FROM citas WHERE id = ? AND usuario_id = ? AND estado = 'Activa'";
+$sql = "SELECT fecha, hora FROM citas WHERE id = ? AND id_paciente = ? AND estado = 'Activa'";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $id_cita, $id_usuario);
 $stmt->execute();
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nuevaFecha = $_POST['fecha'];
     $nuevaHora = $_POST['hora'];
 
-    $update = $conn->prepare("UPDATE citas SET fecha = ?, hora = ? WHERE id = ? AND usuario_id = ?");
+    $update = $conn->prepare("UPDATE citas SET fecha = ?, hora = ? WHERE id = ? AND id_paciente = ?");
     $update->bind_param("ssii", $nuevaFecha, $nuevaHora, $id_cita, $id_usuario);
     $update->execute();
     $update->close();

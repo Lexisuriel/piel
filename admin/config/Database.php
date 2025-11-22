@@ -3,9 +3,9 @@ session_start();
 class Database{
 	
 	private $host  = 'localhost';
-    private $user  = 'u493942604_derma_propiel';
-    private $password   = "Propiel2025";
-    private $database  = "u493942604_propiel"; 
+    private $user  = 'root';
+    private $password   = "";
+    private $database  = "piel"; 
     
     public function getConnection(){		
 		$conn = new mysqli($this->host, $this->user, $this->password, $this->database);

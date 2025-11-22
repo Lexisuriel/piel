@@ -4,6 +4,14 @@ if (!isset($_SESSION['id'])) {
     header('Location: ../index.php');
     exit();
 }
+
+require_once("../db.php");
+$db = new Database();
+$conn = $db->getConnection();
+
+// OBTENER ESPECIALISTAS DE LA BD
+$sql = "SELECT id, nombre, especialidad FROM especialistas";
+$res = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -52,22 +60,31 @@ if (!isset($_SESSION['id'])) {
 <body>
 
 <div class="container">
-<a href="dashboard.php" class="btn btn-secondary mb-3">
-    <i class="fas fa-arrow-left"></i> Regresar
-</a>
+
+    <a href="dashboard.php" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Regresar
+    </a>
 
     <h3>Agendar Cita</h3>
+
     <form id="formCita" method="POST" action="procesar_cita.php">
+
+        <!-- ESPECIALISTA (CORREGIDO) -->
         <div class="mb-3">
-            <label for="especialidad" class="form-label">Especialidad:</label>
-            <select name="especialidad" id="especialidad" class="form-control" required>
+            <label for="id_especialista" class="form-label">Especialidad:</label>
+            <select name="id_especialista" id="id_especialista" class="form-control" required>
                 <option value="">Seleccionar</option>
-                <option value="DERMA">Dermatología</option>
-                <option value="PODO">Podología</option>
-                <option value="TAMIZ">Tamizaje</option>
+
+                <?php while ($row = $res->fetch_assoc()): ?>
+                    <option value="<?= $row['id'] ?>">
+                        <?= $row['especialidad'] ?> — <?= $row['nombre'] ?>
+                    </option>
+                <?php endwhile; ?>
+
             </select>
         </div>
 
+        <!-- TIPO DE CITA -->
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo de cita:</label>
             <select name="tipo" id="tipo" class="form-control" required>
@@ -77,11 +94,18 @@ if (!isset($_SESSION['id'])) {
             </select>
         </div>
 
+        <!-- FECHA -->
         <div class="mb-3">
             <label for="fecha" class="form-label">Fecha:</label>
             <input type="date" name="fecha" id="fecha" class="form-control" required>
         </div>
+        
+<div class="mb-3">
+    <label for="motivo" class="form-label">Motivo de la cita:</label>
+    <textarea name="motivo" id="motivo" class="form-control" placeholder="Describe brevemente el motivo..." required></textarea>
+</div>
 
+        <!-- HORA -->
         <div class="mb-3">
             <label for="hora" class="form-label">Hora:</label>
             <input type="time" name="hora" id="hora" class="form-control" required>

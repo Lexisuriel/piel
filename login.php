@@ -2,73 +2,115 @@
 session_start();
 require_once 'db.php';
 
-// Si el usuario ya inició sesión, redirigir según su rol
+$error = "";
+
+// Si ya inició sesión, redirigir
 if (isset($_SESSION['id'])) {
-    if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
+    if ($_SESSION['rol'] === 'admin') {
         header('Location: dashboard/admin_dashboard.php');
-    } else {
+    } elseif ($_SESSION['rol'] === 'paciente') {
         header('Location: dashboard/dashboard.php');
+    } elseif ($_SESSION['rol'] === 'especialista') {
+        // Redirigir según especialidad
+        if ($_SESSION['especialidad'] === 'Dermatologo') {
+            header('Location: especialistas/dermatologo.php');
+        } elseif ($_SESSION['especialidad'] === 'Podologo') {
+            header('Location: especialistas/podologo.php');
+        } elseif ($_SESSION['especialidad'] === 'Tamizologo' || $_SESSION['especialidad'] === 'Tamiz') {
+            header('Location: especialistas/tamiz.php');
+        }
     }
     exit();
 }
 
-$error = ""; // Variable para manejar mensajes de error
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Limpiar y validar datos
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $password = trim($_POST['password']);
-    
+
     if (!empty($email) && !empty($password)) {
-        // Conexión a la base de datos
         $db = new Database();
         $conn = $db->getConnection();
 
-        // Buscar al usuario
+        /* ---------------------------------------------------------
+            1) BUSCAR EN TABLA USUARIO (paciente / admin)
+        ----------------------------------------------------------*/
         $sql = "SELECT id, nombre_completo, email, password, rol FROM usuario WHERE email = ?";
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param('s', $email);
-            $stmt->execute();
-            $stmt->store_result();
-            
-            if ($stmt->num_rows === 1) {
-                $stmt->bind_result($id, $nombre_completo, $emailDB, $hashedPassword, $rol);
-                $stmt->fetch();
-                
-                if (password_verify($password, $hashedPassword)) {
-                    // Evitar fijación de sesión
-                    session_regenerate_id(true);
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-                    // Guardar datos de sesión
-                    $_SESSION['id'] = $id;
-                    $_SESSION['nombre_completo'] = $nombre_completo;
-                    $_SESSION['email'] = $emailDB;
-                    $_SESSION['rol'] = $rol;
+        if ($resultado->num_rows === 1) {
+            $row = $resultado->fetch_assoc();
 
-                    // Redirigir según el rol
-                    if ($rol === 'admin') {
-                        header('Location: dashboard/admin_dashboard.php');
-                    } else {
-                        header('Location: dashboard/dashboard.php');
-                    }
-                    exit();
+            if (password_verify($password, $row['password'])) {
+                // Guardar sesión
+                session_regenerate_id(true);
+                $_SESSION['id'] = $row['id'];
+                $_SESSION['nombre_completo'] = $row['nombre_completo'];
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['rol'] = $row['rol'];
+
+                if ($row['rol'] === 'admin') {
+                    header('Location: dashboard/admin_dashboard.php');
+                } elseif ($row['rol'] === 'paciente') {
+                    header('Location: dashboard/dashboard.php');
                 } else {
-                    $error = 'Contraseña incorrecta';
+                    $error = "Rol no permitido.";
                 }
-            } else {
-                $error = 'No se encontró ninguna cuenta con ese correo electrónico';
+                exit();
             }
-            $stmt->close();
-        } else {
-            $error = 'Error en la consulta SQL';
         }
+
+        /* ---------------------------------------------------------
+            2) BUSCAR EN TABLA ESPECIALISTAS
+        ----------------------------------------------------------*/
+        $sql2 = "SELECT id, nombre, correo, password, especialidad FROM especialistas WHERE correo = ?";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bind_param('s', $email);
+        $stmt2->execute();
+        $resultado2 = $stmt2->get_result();
+
+        if ($resultado2->num_rows === 1) {
+            $esp = $resultado2->fetch_assoc();
+
+            if (password_verify($password, $esp['password'])) {
+                session_regenerate_id(true);
+
+                $_SESSION['id_especialista'] = $esp['id'];
+                $_SESSION['nombre_especialista'] = $esp['nombre'];
+                $_SESSION['especialidad'] = $esp['especialidad'];
+                $_SESSION['rol'] = 'especialista';
+
+                // Redirección según especialidad
+                if ($esp['especialidad'] === 'Dermatologo') {
+                    header('Location: especialistas/dermatologo.php');
+                } elseif ($esp['especialidad'] === 'Podologo') {
+                    header('Location: especialistas/podologo.php');
+                } elseif ($esp['especialidad'] === 'Tamizologo' || $esp['especialidad'] === 'Tamiz') {
+                    header('Location: especialistas/tamiz.php');
+                } else {
+                    $error = "Especialidad no reconocida.";
+                }
+                exit();
+            } else {
+                $error = "Contraseña incorrecta.";
+            }
+        }
+
+        $stmt->close();
+        $stmt2->close();
         $conn->close();
+
+        if (empty($error)) {
+            $error = "No se encontró ninguna cuenta con ese correo electrónico";
+        }
+
     } else {
-        $error = 'Por favor completa todos los campos';
+        $error = "Por favor completa todos los campos";
     }
 }
 
-// Mostrar errores (y volver atrás)
 if (!empty($error)) {
     echo "<script>
         alert('" . htmlspecialchars($error, ENT_QUOTES, 'UTF-8') . "');

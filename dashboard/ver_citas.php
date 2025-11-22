@@ -43,6 +43,7 @@ $result = $stmt->get_result();
     <title>Mis Citas - Pro-Piel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="../ico/logo.ico">
+
     <style>
         .container {
             background: white;
@@ -92,8 +93,8 @@ $result = $stmt->get_result();
 </head>
 <body>
 
-<div class="container">
-    <a href="dashboard.php" class="btn btn-volver">← Volver al inicio</a>
+<div class="container mt-4">
+    <a href="dashboard.php" class="btn btn-volver mb-3">← Volver al inicio</a>
     <h3>Mis Citas Agendadas</h3>
 
     <table class="table table-striped table-bordered text-center">
@@ -121,7 +122,7 @@ $result = $stmt->get_result();
                         <td><?= htmlspecialchars($row['nombre_especialista']) ?></td>
                         <td><?= htmlspecialchars($row['tipo_cita']) ?></td>
                         <td><?= htmlspecialchars($row['fecha']) ?></td>
-                        <td><?= htmlspecialchars($row['motivo']) ?></td>
+                        <td><?= htmlspecialchars($row['hora']) ?></td>
                         <td><?= htmlspecialchars($row['estado']) ?></td>
                         <td><?= htmlspecialchars($row['motivo']) ?></td>
                         <td><?= htmlspecialchars($row['observaciones'] ?: 'N/A') ?></td>

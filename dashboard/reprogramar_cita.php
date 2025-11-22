@@ -14,13 +14,21 @@ $db = new Database();
 $conn = $db->getConnection();
 
 // Obtener cita actual
+<<<<<<< HEAD
 $sql = "SELECT fecha, hora FROM citas WHERE id = ? AND id_paciente = ? AND estado = 'Activa'";
+=======
+$sql = "SELECT fecha FROM citas WHERE id = ? AND id_paciente = ? AND estado = 'Pendiente'";
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $id_cita, $id_usuario);
 $stmt->execute();
-$stmt->bind_result($fechaActual, $horaActual);
+$stmt->bind_result($fechaActual);
 $stmt->fetch();
 $stmt->close();
+
+// Separar fecha y hora para los inputs del formulario
+$fechaInput = date('Y-m-d', strtotime($fechaActual));
+$horaInput = date('H:i', strtotime($fechaActual));
 ?>
 
 <!DOCTYPE html>
@@ -41,11 +49,11 @@ $stmt->close();
     <form action="reprogramar_cita.php?id=<?= $id_cita ?>" method="POST">
         <div class="mb-3">
             <label for="fecha" class="form-label">Nueva fecha:</label>
-            <input type="date" name="fecha" id="fecha" class="form-control" value="<?= $fechaActual ?>" required>
+            <input type="date" name="fecha" id="fecha" class="form-control" value="<?= $fechaInput ?>" required>
         </div>
         <div class="mb-3">
             <label for="hora" class="form-label">Nueva hora:</label>
-            <input type="time" name="hora" id="hora" class="form-control" value="<?= $horaActual ?>" required>
+            <input type="time" name="hora" id="hora" class="form-control" value="<?= $horaInput ?>" required>
         </div>
         <button type="submit" class="btn btn-success">Guardar Cambios</button>
         <a href="ver_citas.php" class="btn btn-secondary">Cancelar</a>
@@ -59,9 +67,15 @@ $stmt->close();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nuevaFecha = $_POST['fecha'];
     $nuevaHora = $_POST['hora'];
+    $fechaCompleta = $nuevaFecha . " " . $nuevaHora . ":00";
 
+<<<<<<< HEAD
     $update = $conn->prepare("UPDATE citas SET fecha = ?, hora = ? WHERE id = ? AND id_paciente = ?");
     $update->bind_param("ssii", $nuevaFecha, $nuevaHora, $id_cita, $id_usuario);
+=======
+    $update = $conn->prepare("UPDATE citas SET fecha = ? WHERE id = ? AND id_paciente = ?");
+    $update->bind_param("sii", $fechaCompleta, $id_cita, $id_usuario);
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
     $update->execute();
     $update->close();
 

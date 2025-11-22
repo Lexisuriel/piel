@@ -9,9 +9,19 @@ require_once("../db.php");
 $db = new Database();
 $conn = $db->getConnection();
 
+<<<<<<< HEAD
 // OBTENER ESPECIALISTAS DE LA BD
 $sql = "SELECT id, nombre, especialidad FROM especialistas";
 $res = $conn->query($sql);
+=======
+// Obtener lista de especialistas
+$sql = "SELECT id, nombre, especialidad FROM especialistas ORDER BY especialidad";
+$result = $conn->query($sql);
+$especialistas = [];
+while ($row = $result->fetch_assoc()) {
+    $especialistas[] = $row;
+}
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +52,11 @@ $res = $conn->query($sql);
             color: white;
             margin-top: 10px;
         }
-        .btn-pagar:hover {
+        .btn-pagar:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .btn-pagar:hover:not(:disabled) {
             background-color: #21867a;
         }
         .horario {
@@ -60,7 +74,10 @@ $res = $conn->query($sql);
 <body>
 
 <div class="container">
+<<<<<<< HEAD
 
+=======
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
     <a href="dashboard.php" class="btn btn-secondary mb-3">
         <i class="fas fa-arrow-left"></i> Regresar
     </a>
@@ -68,6 +85,7 @@ $res = $conn->query($sql);
     <h3>Agendar Cita</h3>
 
     <form id="formCita" method="POST" action="procesar_cita.php">
+<<<<<<< HEAD
 
         <!-- ESPECIALISTA (CORREGIDO) -->
         <div class="mb-3">
@@ -85,19 +103,46 @@ $res = $conn->query($sql);
         </div>
 
         <!-- TIPO DE CITA -->
+=======
+        <input type="hidden" name="id_paciente" value="<?php echo $_SESSION['id']; ?>">
+
+        <!-- Especialista -->
         <div class="mb-3">
-            <label for="tipo" class="form-label">Tipo de cita:</label>
-            <select name="tipo" id="tipo" class="form-control" required>
-                <option value="">Seleccionar</option>
-                <option value="Primera vez">Primera vez</option>
-                <option value="Subsecuente">Subsecuente</option>
+            <label for="id_especialista" class="form-label">Selecciona un especialista:</label>
+            <select name="id_especialista" id="id_especialista" class="form-control" required>
+                <option value="">--Seleccionar Especialista--</option>
+                <?php foreach ($especialistas as $e): ?>
+                    <option value="<?php echo $e['id']; ?>">
+                        <?php echo htmlspecialchars($e['nombre'] . " - " . $e['especialidad']); ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
 
+        <!-- Motivo -->
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
+        <div class="mb-3">
+            <label for="motivo" class="form-label">Motivo de la cita:</label>
+            <textarea name="motivo" id="motivo" rows="3" class="form-control" placeholder="Describe brevemente el motivo de tu cita..." required></textarea>
+        </div>
+
+<<<<<<< HEAD
         <!-- FECHA -->
         <div class="mb-3">
             <label for="fecha" class="form-label">Fecha:</label>
             <input type="date" name="fecha" id="fecha" class="form-control" required>
+=======
+        <!-- Fecha y hora -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="fecha" class="form-label">Fecha:</label>
+                <input type="date" name="fecha" id="fecha" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="hora" class="form-label">Hora:</label>
+                <input type="time" name="hora" id="hora" class="form-control" required>
+            </div>
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
         </div>
         
 <div class="mb-3">
@@ -105,18 +150,22 @@ $res = $conn->query($sql);
     <textarea name="motivo" id="motivo" class="form-control" placeholder="Describe brevemente el motivo..." required></textarea>
 </div>
 
+<<<<<<< HEAD
         <!-- HORA -->
         <div class="mb-3">
             <label for="hora" class="form-label">Hora:</label>
             <input type="time" name="hora" id="hora" class="form-control" required>
         </div>
+=======
+        <!-- Botón deshabilitado hasta que se llenen los campos -->
+        <button type="button" class="btn btn-pagar w-100" onclick="verificarDisponibilidad()">Verificar disponibilidad</button>
+>>>>>>> fb84d44eb42953d6901f16e1b620003264f9bcb9
 
-        <button type="button" class="btn btn-pagar" onclick="simularPago()">Pagar 50% y Agendar</button>
     </form>
 
-    <div class="horario">
+    <div class="horario mt-4">
         <h5>🕐 Horarios de Atención</h5>
-        <table border="1" class="table table-bordered table-sm">
+        <table class="table table-bordered table-sm">
             <thead>
                 <tr>
                     <th>Horario</th>
@@ -137,14 +186,40 @@ $res = $conn->query($sql);
         </table>
     </div>
 </div>
-
 <script>
-    function simularPago() {
-        if (confirm('¿Deseas simular el pago del 50% para agendar la cita?')) {
-            document.getElementById('formCita').submit();
-        }
+function verificarDisponibilidad() {
+    const fecha = document.getElementById("fecha").value;
+    const hora = document.getElementById("hora").value;
+    const id_especialista = document.getElementById("id_especialista").value;
+
+    if (!fecha || !hora || !id_especialista) {
+        alert("Por favor, completa todos los campos antes de verificar.");
+        return;
     }
+
+    fetch("verificar_cita.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `fecha=${encodeURIComponent(fecha)}&hora=${encodeURIComponent(hora)}&id_especialista=${encodeURIComponent(id_especialista)}`
+    })
+    .then(response => response.text())
+    .then(text => {
+        console.log("Respuesta del servidor:", text);
+        if (text.trim() === "ocupado") {
+            alert("⚠️ Esa fecha y hora ya están ocupadas.");
+        } else if (text.trim() === "disponible") {
+            alert("✅ Esa fecha y hora están disponibles.");
+        } else {
+            alert("Error inesperado del servidor → " + text);
+        }
+    })
+    .catch(error => {
+        console.error("Error al verificar:", error);
+        alert("Error al verificar la cita.");
+    });
+}
 </script>
+
 
 </body>
 </html>

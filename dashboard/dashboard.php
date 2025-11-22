@@ -199,7 +199,7 @@ $conn->close();
             <a href="dashboard.php" class="active"><i class="fas fa-home"></i> Inicio</a>
 
             <!-- 🔥 AQUÍ SE CORRIGE -->
-            <a href="citas.php"><i class="fas fa-calendar-check"></i> Mis Citas</a>
+            <a href="agendar_cita.php"><i class="fas fa-calendar-check"></i> Mis Citas</a>
 
             <a href="ver_consentimiento.php"><i class="fas fa-file-alt"></i> Consentimiento</a>
             <a href="#historial"><i class="fas fa-notes-medical"></i> Historial</a>
@@ -230,7 +230,7 @@ $conn->close();
                         <h3><i class="fas fa-calendar-check"></i> Próximas Citas</h3>
 
                         <!-- 🔥 BOTÓN CORREGIDO -->
-                        <a href="citas.php" class="btn btn-primary-custom mb-3">
+                        <a href="agendar_cita.php" class="btn btn-primary-custom mb-3">
                             <i class="fas fa-calendar-check"></i> Ver citas agendadas
                         </a>
 

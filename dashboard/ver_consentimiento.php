@@ -15,7 +15,7 @@ $nombre_usuario = $_SESSION['nombre_completo'];
 $db = new Database();
 $conn = $db->getConnection();
 
-// Obtener consentimientos generados
+// Obtener consentimientos generados - CONSULTA CORREGIDA
 $sql = "SELECT 
             c.id,
             c.fecha_creacion,

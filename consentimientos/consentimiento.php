@@ -42,7 +42,7 @@ $id_especialista  = $datos['id_especialista'];
 $nombre_paciente  = $datos['nombre_completo'];
 $fecha_nac        = $datos['fecha_nacimiento'];
 $telefono         = $datos['telefono'];
-$genero             = $datos['genero'];
+$genero           = $datos['genero'];
 $nombre_medico    = $datos['nombre_especialista'];
 $especialidad     = $datos['especialidad'];
 $cedula           = $datos['cedula'];
@@ -54,6 +54,8 @@ if (!empty($fecha_nac)) {
     $hoy = new DateTime();
     $edad = $hoy->diff($nacimiento)->y;
 }
+
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -80,7 +82,6 @@ if (!empty($fecha_nac)) {
         ⬅ Regresar
     </a>
 </div>
-
 
     <p class="text-justify">
         Yo <span class="font-weight-bold"><u><?= htmlspecialchars($nombre_paciente) ?></u></span> autorizo al 
@@ -109,7 +110,8 @@ if (!empty($fecha_nac)) {
         <span class="font-italic">Normas Oficiales Mexicanas aplicables (NOM 001 y NOM 234).</span>
     </p>
 
-    <form target="_blank" onsubmit="return guardarFirma()" action="generar_consentimiento.php" method="POST" class="text-center">
+    <!-- 🔥 FORMULARIO CORREGIDO - Se agregó id_cita a la URL -->
+    <form target="_blank" onsubmit="return guardarFirma()" action="generar_consentimiento.php?id_cita=<?= $id_cita ?>" method="POST" class="text-center">
         <input type="hidden" name="id_paciente" value="<?= $id_paciente; ?>">
         <input type="hidden" name="id_especialista" value="<?= $id_especialista; ?>">
         <input type="hidden" name="firma_img" id="firma_img">

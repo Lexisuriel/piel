@@ -11,6 +11,7 @@ $conn = $db->getConnection();
 $id_paciente     = $_POST['id_paciente']    ?? null;
 $id_especialista = $_POST['id_especialista'] ?? null;
 $firma_img       = $_POST['firma_img']      ?? null;
+$id_cita         = $_GET['id_cita']         ?? null; // Agregar esta línea para obtener id_cita
 
 if (!$id_paciente || !$id_especialista || !$firma_img) {
     die("Datos requeridos faltantes");
@@ -30,7 +31,7 @@ if (!$paciente) {
 
 $nombre_paciente = $paciente['nombre_completo'];
 $telefono        = $paciente['telefono'];
-$genero            = $paciente['genero'];
+$genero          = $paciente['genero'];
 
 // Calcular edad
 $edad = 0;
@@ -164,12 +165,47 @@ if (!file_exists($carpeta)) {
 
 $ruta_guardado = $carpeta . $nombre_limpio;
 
-// Guardar copia y mostrar
+// Guardar copia en el servidor
 $pdf->Output($ruta_guardado, 'F');
+
+// GUARDAR EN BASE DE DATOS
+if (!$id_cita) {
+    // Si no viene por GET, buscar la cita más reciente
+    $stmt = $conn->prepare("SELECT id FROM citas WHERE id_paciente = ? AND id_especialista = ? ORDER BY fecha DESC LIMIT 1");
+    $stmt->bind_param("ii", $id_paciente, $id_especialista);
+    $stmt->execute();
+    $cita_result = $stmt->get_result();
+    $cita_data = $cita_result->fetch_assoc();
+    $id_cita = $cita_data ? $cita_data['id'] : null;
+}
+
+if ($id_cita) {
+    // Insertar registro en la tabla consentimientos
+    $insert_sql = "INSERT INTO consentimientos (id_paciente, id_especialista, id_cita, nombre_archivo, ruta_archivo, fecha_creacion) 
+                   VALUES (?, ?, ?, ?, ?, NOW())";
+    $insert_stmt = $conn->prepare($insert_sql);
+    $insert_stmt->bind_param("iiiss", $id_paciente, $id_especialista, $id_cita, $nombre_limpio, $ruta_guardado);
+    
+    if ($insert_stmt->execute()) {
+        // Éxito al guardar en BD
+        error_log("Consentimiento guardado en BD: " . $nombre_limpio);
+    } else {
+        // Error al guardar en BD
+        error_log("Error al guardar consentimiento en BD: " . $insert_stmt->error);
+    }
+    $insert_stmt->close();
+} else {
+    error_log("No se pudo obtener id_cita para guardar consentimiento");
+}
+
+// Mostrar PDF al usuario
 $pdf->Output($nombre_limpio, 'I');
 
 // Borrar firma temporal
 if (file_exists($temp_file)) {
     unlink($temp_file);
 }
+
+// Cerrar conexión
+$conn->close();
 ?>

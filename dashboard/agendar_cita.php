@@ -42,11 +42,7 @@ $res = $conn->query($sql);
             color: white;
             margin-top: 10px;
         }
-        .btn-pagar:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
-        }
-        .btn-pagar:hover:not(:disabled) {
+        .btn-pagar:hover {
             background-color: #21867a;
         }
         .horario {
@@ -64,6 +60,7 @@ $res = $conn->query($sql);
 <body>
 
 <div class="container">
+
     <a href="dashboard.php" class="btn btn-secondary mb-3">
         <i class="fas fa-arrow-left"></i> Regresar
     </a>
@@ -89,8 +86,12 @@ $res = $conn->query($sql);
 
         <!-- TIPO DE CITA -->
         <div class="mb-3">
-            <label for="motivo" class="form-label">Motivo de la cita:</label>
-            <textarea name="motivo" id="motivo" rows="3" class="form-control" placeholder="Describe brevemente el motivo de tu cita..." required></textarea>
+            <label for="tipo" class="form-label">Tipo de cita:</label>
+            <select name="tipo" id="tipo" class="form-control" required>
+                <option value="">Seleccionar</option>
+                <option value="Primera vez">Primera vez</option>
+                <option value="Subsecuente">Subsecuente</option>
+            </select>
         </div>
 
         <!-- FECHA -->
@@ -110,11 +111,12 @@ $res = $conn->query($sql);
             <input type="time" name="hora" id="hora" class="form-control" required>
         </div>
 
+        <button type="button" class="btn btn-pagar" onclick="simularPago()">Pagar 50% y Agendar</button>
     </form>
 
-    <div class="horario mt-4">
+    <div class="horario">
         <h5>🕐 Horarios de Atención</h5>
-        <table class="table table-bordered table-sm">
+        <table border="1" class="table table-bordered table-sm">
             <thead>
                 <tr>
                     <th>Horario</th>
@@ -135,40 +137,14 @@ $res = $conn->query($sql);
         </table>
     </div>
 </div>
+
 <script>
-function verificarDisponibilidad() {
-    const fecha = document.getElementById("fecha").value;
-    const hora = document.getElementById("hora").value;
-    const id_especialista = document.getElementById("id_especialista").value;
-
-    if (!fecha || !hora || !id_especialista) {
-        alert("Por favor, completa todos los campos antes de verificar.");
-        return;
-    }
-
-    fetch("verificar_cita.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `fecha=${encodeURIComponent(fecha)}&hora=${encodeURIComponent(hora)}&id_especialista=${encodeURIComponent(id_especialista)}`
-    })
-    .then(response => response.text())
-    .then(text => {
-        console.log("Respuesta del servidor:", text);
-        if (text.trim() === "ocupado") {
-            alert("⚠️ Esa fecha y hora ya están ocupadas.");
-        } else if (text.trim() === "disponible") {
-            alert("✅ Esa fecha y hora están disponibles.");
-        } else {
-            alert("Error inesperado del servidor → " + text);
+    function simularPago() {
+        if (confirm('¿Deseas simular el pago del 50% para agendar la cita?')) {
+            document.getElementById('formCita').submit();
         }
-    })
-    .catch(error => {
-        console.error("Error al verificar:", error);
-        alert("Error al verificar la cita.");
-    });
-}
+    }
 </script>
-
 
 </body>
 </html>

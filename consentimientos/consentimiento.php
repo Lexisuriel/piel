@@ -61,134 +61,253 @@ $conn->close();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Consentimiento Informado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consentimiento Informado - Pro-Piel</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 30px;
+        }
         canvas#firma {
-            border: 1px solid #000;
+            border: 2px solid #2a9d8f;
+            border-radius: 10px;
             background-color: #fff;
+            cursor: crosshair;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn-primary-custom {
+            background-color: #2a9d8f;
+            border-color: #2a9d8f;
+            color: white;
+            font-weight: 500;
+        }
+        .btn-primary-custom:hover {
+            background-color: #21867a;
+            border-color: #21867a;
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        .btn-volver {
+            background: #5a6d75;
+            color: white;
+            font-weight: 500;
+        }
+        .btn-volver:hover {
+            background: #465559;
+            color: white;
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        h3, h4 {
+            color: #2a9d8f;
+        }
+        .text-justify {
+            text-align: justify;
+            line-height: 1.6;
+        }
+        .firma-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #dee2e6;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin-top: 10px;
+            }
+            canvas#firma {
+                width: 100% !important;
+                height: 120px !important;
+            }
         }
     </style>
 </head>
-<body class="container mt-5">
-    <div class="text-center">
-        <img src="../propiel-logo.png" class="img-fluid w-25" style="max-width: 180px;" alt="logo Propiel">
-    </div>
-    <h3 class="text-center font-weight-bold">Consentimiento Informado</h3>
-    <h4 class="text-center pb-3">DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA DERMATOLÓGICA</h4>
-    <div class="text-center mb-4">
-    <a href="javascript:history.back()" class="btn btn-secondary">
-        ⬅ Regresar
-    </a>
-</div>
-
-    <p class="text-justify">
-        Yo <span class="font-weight-bold"><u><?= htmlspecialchars($nombre_paciente) ?></u></span> autorizo al 
-        <span class="font-weight-bold"><u><?= htmlspecialchars($nombre_medico) ?></u></span> especialista en 
-        <span class="font-weight-bold"><u><?= htmlspecialchars($especialidad) ?></u></span> con cédula 
-        <span class="font-weight-bold"><u><?= htmlspecialchars($cedula) ?></u></span> como mi médico tratante.
-        Con mi número actual de teléfono 
-        <span class="font-weight-bold"><u><?= htmlspecialchars($telefono) ?></u></span> y a la edad de 
-        <span class="font-weight-bold"><u><?= $edad ?> años</u></span> de sexo 
-        <span class="font-weight-bold"><u><?= htmlspecialchars($genero) ?></u></span>; acudo a consulta externa de primera vez. 
-        Lo cual manifiesto consciente, sin presión y es mi voluntad acudir con él para mi atención médica.
-    </p>
-
-    <p class="text-justify">
-        Para lo cual <span class="font-italic">me interrogará sobre mi enfermedad y comorbilidades, 
-        me explorará el área afectada incluyendo el área genital si fuera necesario, lo cual lo hará
-        siempre con la presencia de la Enfermera. Así mismo me solicitará estudios de laboratorio
-        y hasta una biopsia de piel según mi enfermedad, me prescribirá una receta médica en la que
-        se indicarán los nombres de los medicamentos, forma de uso y tiempo que debo tomarlos,
-        así mismo si fuera necesario mandará una cita subsecuente para valorar la evolución de mi enfermedad.</span>
-    </p>
-
-    <p class="text-justify">
-        Todo lo anterior apegado a la ética, profesionalismo y responsabilidad y con base en el principio
-        de libertad prescriptiva, de acuerdo a lo establecido en las 
-        <span class="font-italic">Normas Oficiales Mexicanas aplicables (NOM 001 y NOM 234).</span>
-    </p>
-
-    <!-- 🔥 FORMULARIO CORREGIDO - Se agregó id_cita a la URL -->
-    <form target="_blank" onsubmit="return guardarFirma()" action="generar_consentimiento.php?id_cita=<?= $id_cita ?>" method="POST" class="text-center">
-        <input type="hidden" name="id_paciente" value="<?= $id_paciente; ?>">
-        <input type="hidden" name="id_especialista" value="<?= $id_especialista; ?>">
-        <input type="hidden" name="firma_img" id="firma_img">
-
-        <label class="font-weight-bold">Firma del Paciente:</label><br>
-        <canvas id="firma" width="300" height="150"></canvas><br>
-
-        <div class="d-flex justify-content-center mt-3">
-            <button type="button" onclick="limpiarFirma()" class="btn btn-danger mr-2">Limpiar Firma</button>
-            <button type="submit" class="btn btn-success">Generar PDF</button>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2a9d8f;">
+        <div class="container">
+            <a class="navbar-brand" href="../index.php">
+                <i class="fas fa-user-md"></i> Pro-Piel
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text text-white">
+                    <i class="fas fa-user"></i> <?= htmlspecialchars($nombre_paciente) ?>
+                </span>
+            </div>
         </div>
-    </form>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <img src="../propiel-logo.png" class="img-fluid" style="max-width: 180px;" alt="logo Propiel">
+        </div>
+        
+        <h3 class="text-center font-weight-bold">Consentimiento Informado</h3>
+        <h4 class="text-center pb-3">DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA DERMATOLÓGICA</h4>
+        
+        <div class="text-center mb-4">
+            <a href="javascript:history.back()" class="btn btn-volver">
+                <i class="fas fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="text-justify">
+                    Yo <span class="font-weight-bold"><u><?= htmlspecialchars($nombre_paciente) ?></u></span> autorizo al 
+                    <span class="font-weight-bold"><u><?= htmlspecialchars($nombre_medico) ?></u></span> especialista en 
+                    <span class="font-weight-bold"><u><?= htmlspecialchars($especialidad) ?></u></span> con cédula 
+                    <span class="font-weight-bold"><u><?= htmlspecialchars($cedula) ?></u></span> como mi médico tratante.
+                    Con mi número actual de teléfono 
+                    <span class="font-weight-bold"><u><?= htmlspecialchars($telefono) ?></u></span> y a la edad de 
+                    <span class="font-weight-bold"><u><?= $edad ?> años</u></span> de sexo 
+                    <span class="font-weight-bold"><u><?= htmlspecialchars($genero) ?></u></span>; acudo a consulta externa de primera vez. 
+                    Lo cual manifiesto consciente, sin presión y es mi voluntad acudir con él para mi atención médica.
+                </p>
+
+                <p class="text-justify">
+                    Para lo cual <span class="font-italic">me interrogará sobre mi enfermedad y comorbilidades, 
+                    me explorará el área afectada incluyendo el área genital si fuera necesario, lo cual lo hará
+                    siempre con la presencia de la Enfermera. Así mismo me solicitará estudios de laboratorio
+                    y hasta una biopsia de piel según mi enfermedad, me prescribirá una receta médica en la que
+                    se indicarán los nombres de los medicamentos, forma de uso y tiempo que debo tomarlos,
+                    así mismo si fuera necesario mandará una cita subsecuente para valorar la evolución de mi enfermedad.</span>
+                </p>
+
+                <p class="text-justify">
+                    Todo lo anterior apegado a la ética, profesionalismo y responsabilidad y con base en el principio
+                    de libertad prescriptiva, de acuerdo a lo establecido en las 
+                    <span class="font-italic">Normas Oficiales Mexicanas aplicables (NOM 001 y NOM 234).</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- FORMULARIO CORREGIDO - Se agregó id_cita a la URL -->
+        <form target="_blank" onsubmit="return guardarFirma()" action="generar_consentimiento.php?id_cita=<?= $id_cita ?>" method="POST" class="text-center">
+            <input type="hidden" name="id_paciente" value="<?= $id_paciente; ?>">
+            <input type="hidden" name="id_especialista" value="<?= $id_especialista; ?>">
+            <input type="hidden" name="firma_img" id="firma_img">
+
+            <div class="firma-container mb-4">
+                <label class="font-weight-bold h5">Firma del Paciente:</label>
+                <p class="text-muted small mb-3">Dibuje su firma en el área inferior</p>
+                <canvas id="firma" width="300" height="150"></canvas>
+                <div class="mt-2">
+                    <button type="button" onclick="limpiarFirma()" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-eraser"></i> Limpiar Firma
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-4">
+                <button type="button" onclick="limpiarFirma()" class="btn btn-outline-danger mr-3">
+                    <i class="fas fa-eraser"></i> Limpiar Firma
+                </button>
+                <button type="submit" class="btn btn-primary-custom">
+                    <i class="fas fa-file-pdf"></i> Generar PDF con Firma
+                </button>
+            </div>
+            
+            <div class="alert alert-info mt-3" role="alert">
+                <i class="fas fa-info-circle"></i> Al hacer clic en "Generar PDF", se abrirá una nueva ventana con su consentimiento firmado.
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Pro-Piel. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
     <script>
         const canvas = document.getElementById('firma');
         const ctx = canvas.getContext('2d');
         let drawing = false;
+        let lastX = 0;
+        let lastY = 0;
 
+        // Configuración del canvas
         ctx.lineWidth = 2;
         ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#2a9d8f';
 
-        // Mouse
-        canvas.addEventListener('mousedown', e => {
+        // Función para obtener posición
+        function getPos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (evt.clientX - rect.left) * (canvas.width / rect.width),
+                y: (evt.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousedown', (e) => {
             drawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
+            const pos = getPos(canvas, e);
+            [lastX, lastY] = [pos.x, pos.y];
         });
 
-        canvas.addEventListener('mousemove', e => {
+        canvas.addEventListener('mousemove', (e) => {
             if (!drawing) return;
-            ctx.lineTo(e.offsetX, e.offsetY);
+            const pos = getPos(canvas, e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
+            [lastX, lastY] = [pos.x, pos.y];
         });
 
         canvas.addEventListener('mouseup', () => {
             drawing = false;
-            ctx.closePath();
+            ctx.beginPath();
         });
 
-        canvas.addEventListener('mouseleave', () => {
+        canvas.addEventListener('mouseout', () => {
             drawing = false;
-            ctx.closePath();
+            ctx.beginPath();
         });
 
-        // Touch
-        canvas.addEventListener('touchstart', e => {
+        // Touch events para dispositivos móviles
+        canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             const t = e.touches[0];
-            const pos = getTouchPos(canvas, t);
+            const pos = getPos(canvas, t);
             drawing = true;
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
+            [lastX, lastY] = [pos.x, pos.y];
         });
 
-        canvas.addEventListener('touchmove', e => {
+        canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
             if (!drawing) return;
             const t = e.touches[0];
-            const pos = getTouchPos(canvas, t);
+            const pos = getPos(canvas, t);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
+            [lastX, lastY] = [pos.x, pos.y];
         });
 
-        canvas.addEventListener('touchend', e => {
+        canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
             drawing = false;
-            ctx.closePath();
+            ctx.beginPath();
         });
-
-        function getTouchPos(canvas, touch) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: (touch.clientX - rect.left) * (canvas.width / rect.width),
-                y: (touch.clientY - rect.top) * (canvas.height / rect.height)
-            };
-        }
 
         function limpiarFirma() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -197,18 +316,32 @@ $conn->close();
         function guardarFirma() {
             const dataURL = canvas.toDataURL('image/png');
 
+            // Verificar si el canvas está vacío
             const emptyCanvas = document.createElement('canvas');
             emptyCanvas.width = canvas.width;
             emptyCanvas.height = canvas.height;
+            const emptyCtx = emptyCanvas.getContext('2d');
+            emptyCtx.fillStyle = 'white';
+            emptyCtx.fillRect(0, 0, emptyCanvas.width, emptyCanvas.height);
 
             if (dataURL === emptyCanvas.toDataURL()) {
-                alert('Por favor, dibuje una firma antes de enviar.');
+                alert('Por favor, dibuje su firma antes de generar el PDF.');
                 return false;
             }
 
             document.getElementById('firma_img').value = dataURL;
             return true;
         }
+
+        // Limpiar canvas al cargar la página
+        window.addEventListener('load', function() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        });
     </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
 </html>

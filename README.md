@@ -2,7 +2,7 @@
 
 Este proyecto es un sistema web para gestión de pacientes, consentimientos, citas, historial y administración general de un consultorio dermatológico.
 
-## 📌 Características principales
+##  Características principales
 
 * **Gestión de usuarios** con roles (admin, user).
 * **Subida y administración de archivos** (PDF, imágenes, consentimientos).
@@ -13,7 +13,7 @@ Este proyecto es un sistema web para gestión de pacientes, consentimientos, cit
 * **Descarga de consentimientos** y listado de archivos ya generados.
 * **Dashboard personalizado** según tipo de usuario.
 
-## 🛠️ Tecnologías utilizadas
+##  Tecnologías utilizadas
 
 * **PHP 8+**
 * **MySQL** (puerto configurado: 3306)
@@ -22,7 +22,7 @@ Este proyecto es un sistema web para gestión de pacientes, consentimientos, cit
 * **FPDF** para generación de PDFs
 * **GSAP** y **Tailwind / Bootstrap** en módulos especiales del proyecto
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 * `/dashboard/` – Panel principal del usuario
 * `/admin/` – Subida de archivos e imágenes
@@ -43,9 +43,9 @@ Este proyecto es un sistema web para gestión de pacientes, consentimientos, cit
    * `/files/`
    * `/upload/`
 
-## 🚀 Funcionalidades específicas
+##  Funcionalidades específicas
 
-### 👩‍⚕️ Para Administradores
+###  Para Administradores
 
 * Subir imágenes al sistema
 * Generar pantallas dinámicas
@@ -53,17 +53,17 @@ Este proyecto es un sistema web para gestión de pacientes, consentimientos, cit
 * Administrar usuarios
 * Gestionar citas
 
-### 👤 Para Usuarios
+###  Para Usuarios
 
 * Ver pantallas dinámicas con carrusel (en grupos de 3 fotos)
 * Descargar sus consentimientos generados
 * Ver sus citas registradas
 
 
-## 🤝 Autor
+##  Autor
 
 LEXIS URIEL LEYVA FERNANDEZ, CHRISTOPHER VARGAS OJENDIZ, YAEL SANCHEZ CORTEZ, JOSÉ ARMANDO AHUELICAN DUARTES – Proyecto ProPiel
 
-## 📄 Licencia
+##  Licencia
 
 Uso interno y académico para consultorio dermatológico.
